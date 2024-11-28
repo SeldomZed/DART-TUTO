@@ -2,6 +2,49 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
+/* VAR :
+int : Représente des nombres entiers (ex. 1, 42).
+double : Représente des nombres à virgule flottante (ex. 3.14, 0.5).
+num : Supertype pour int et double (peut contenir les deux).
+String : Représente du texte ou une chaîne de caractères (ex. "Bonjour").
+bool : Représente une valeur vraie ou fausse (true, false).
+List : Représente une liste ordonnée d'éléments (ex. [1, 2, 3]).
+Set : Représente une collection d'éléments uniques, non ordonnée (ex. {1, 2, 3}).
+Map : Représente une collection de paires clé-valeur (ex. {‘clé’: valeur}).
+Runes : Représente des caractères Unicode (pour travailler avec des symboles ou emojis).
+Symbol : Représente un identifiant, souvent utilisé en réflexion pour symboliser des noms.
+dynamic : Peut contenir n'importe quel type, vérification de type désactivée.
+Object : Supertype de tous les types, toute valeur Dart est un Object.
+void : Utilisé pour indiquer qu'une fonction ne renvoie aucune valeur.
+Null : Représente la valeur null, utilisé pour indiquer qu'une variable ne pointe vers rien.
+Never : Indique qu'une fonction ne retournera jamais (ex. une fonction qui lance une erreur).
+Future : Représente une valeur asynchrone qui sera disponible dans le futur.
+Stream : Représente une série de valeurs asynchrones émises sur une période.
+Function : Représente une fonction (ex. int add(int a, int b)).
+Enum : Utilisé pour représenter un ensemble de valeurs constantes (ex. enum Color { red, green, blue }).
+
+MOD :
+var : Permet à Dart d'inférer automatiquement le type de la variable en fonction de sa valeur initiale.
+final : Variable assignée une seule fois, sa valeur ne peut plus être modifiée après initialisation.
+const : Déclare une constante immuable dont la valeur est fixée à la compilation.
+late : Permet de déclarer une variable non initialisée qui sera initialisée plus tard. Elle doit être initialisée avant son utilisation.
+static : Attribut de classe, partagé par toutes les instances. Utilisé dans le contexte des classes.
+external : Indique que la méthode ou la variable est définie ailleurs, souvent utilisée avec des bibliothèques natives.
+dynamic : Utilisé pour des variables qui peuvent contenir n'importe quel type. Dart ne fera pas de vérification stricte de type à la compilation.
+covariant : Utilisé dans l'héritage pour permettre à un paramètre d'accepter des sous-types dans une sous-classe.
+abstract : Utilisé pour déclarer une classe abstraite ou une méthode qui doit être implémentée par une sous-classe. Elle ne peut pas être instanciée directement.
+required : Utilisé avec des paramètres nommés pour indiquer qu'ils sont obligatoires lors de l'appel d'une fonction ou d'un constructeur.
+getter / setter : Utilisés pour créer des propriétés calculées dans une classe.
+typedef : Utilisé pour créer un alias de type, souvent pour des signatures de fonctions complexes.
+factory : Utilisé pour déclarer un constructeur qui peut renvoyer une instance existante ou appliquer des règles spéciales de création d'instances.
+async / await : Utilisés pour gérer des opérations asynchrones dans des fonctions. async marque une fonction qui retourne une Future, et await suspend l'exécution jusqu'à ce que le résultat soit prêt.
+sync* / yield : Utilisés pour créer des itérateurs paresseux ou des fonctions génératrices. sync* retourne un itérateur synchronisé, et yield émet des valeurs une par une.
+async* / yield : Similaire à sync*, mais pour des fonctions génératrices asynchrones, qui émettent des valeurs au fil du temps via un Stream.
+@override : Utilisé pour indiquer que la méthode redéfinie dans une sous-classe remplace la méthode d'une classe parent.
+@deprecated : Annotations pour indiquer qu'une méthode ou une classe est obsolète et ne devrait plus être utilisée.
+@required (Flutter) : Utilisé dans Flutter pour indiquer qu'un paramètre est obligatoire. Il est maintenant remplacé par required directement en Dart avec Null Safety. */
+
+
 
 void readLineTuto(){
 print('Donne un premier nombre : ');
@@ -12,7 +55,7 @@ String? input2 = stdin.readLineSync();
 print("La somme de $input1 + $input2 est : ${double.parse(input1!) + double.parse(input2!)}");
 
 }
-
+// un iterable est une collection d'éléments qui peuvent être parcourus un par un(itérés) avec 'for in', '.forEach()' etc ex = List et Set
 void SplitMapToListParseTuto() {
   print('Donne une liste de nombres :');
   String? input1 = stdin.readLineSync(); 
@@ -83,10 +126,8 @@ void ContainsTutoEz(List<String> liste, {String? OneOption, List<String>? ManyOp
       print(i);
     }
     }
-  
   }
  }  
-
 }
 
 void FoldTuto() {
@@ -95,16 +136,16 @@ void FoldTuto() {
   String sentence = words.fold("Message : ", (a, b) => a + b + " ");
   print(sentence);
 }
-// foldt : =reduce mais nécessite une valeur initiale, e.g Message ici, marche si la collection est vide contrairement à reduce et peut être différent du type des éléments 
+// foldt : = reduce mais nécessite une valeur initiale, e.g Message ici, marche si la collection est vide contrairement à reduce et peut être différent du type des éléments 
 
 
-class GetterDateTimeTuto {
+class GetterTuto {
   String name;
   int birthYear;
 
-  GetterDateTimeTuto(this.name, this.birthYear);
+  GetterTuto(this.name, this.birthYear);
 
-  int get age => DateTime.now().year - birthYear;  // Gettert : c'est = methode mais plus fluide et intuitif car appelé comme une propriété contrairement aux methode
+  int get age => DateTime.now().year - birthYear;  // gett : c'est = methode mais plus fluide et intuitif car appelé comme une propriété contrairement aux methode, fait office de variable aussi
     
   int aged() => DateTime.now().year - birthYear; // methode classique
     // =>t : permet de supprimer les { } et le return 
@@ -112,36 +153,352 @@ class GetterDateTimeTuto {
 
 } 
 void getter(){
-    var guy = GetterDateTimeTuto("Pere", 1972);
+    var guy = GetterTuto("Pere", 1972);
     print(guy.age); // Getter
     print(guy.aged()); // Methode
   }
 
-class Spacecraft {
+class DifferenceDateTime{
   String name;
   DateTime? launchDate;
 
-  int? get launchYear => launchDate?.year; // ?.t : verifie si launchDate est null, si false => return launchDate.year
+  int? get launchYear => launchDate?.year; // ?.t : verifie si launchDate est null, si pas null => return launchDate.year
 
-  Spacecraft(this.name, this.launchDate) {
+  DifferenceDateTime(this.name, this.launchDate) {
   }
 
-  Spacecraft.unlaunched(String name) : this(name, null); // constructeur nommé
-
+  DifferenceDateTime.unlaunched(String name) : this(name, null); 
+                                 // SAME =>  : this.name = name , launchDate = null; 
   void describe() {
     print('Spacecraft: $name');
     var launchDate = this.launchDate;
     if (launchDate != null) {
-      int years = DateTime.now().difference(launchDate).inDays ~/ 365; // A.differencet(B) : A = diminué B = diminuant et ~/ division euclidienne (avec reste)
-      print('Launched: $launchYear ($years years ago)');
+      int annee = DateTime.now().difference(launchDate).inDays ~/ 365; // A.differencet(B) : A = diminué B = diminuant et ~/ division euclidienne (avec reste)
+      int mois = DateTime.now().difference(launchDate).inDays % 365 ~/30 ;
+      int jour = DateTime.now().difference(launchDate).inDays % 365 % 30;
+      print('Launched in $launchYear ($annee years, $mois months and $jour days ago)');
     } else {
       print('Unlaunched');
     }
   }
 }
-
-void main() {
+void DifferenceDT(){
+  var Nasa = DifferenceDateTime("SpaceX", DateTime(2002,10));
+  var Nasa2 = DifferenceDateTime.unlaunched("WooW");
+  Nasa.describe();
+  Nasa2.describe();
 }
+
+
+class ConstruNommeEz{
+  String owner;
+  double balance;
+
+  ConstruNommeEz(this.owner, this.balance); // Constructeur principal de ConstruNommeeEz
+
+  ConstruNommeEz.empty(String owner) : this(owner, 0); // Constructeur nommé qui permet d'eviter d'inclurer {} etc et auto documente le code empty/premium = Clair Intuitif
+  // il redirige les parametres .ConstucteurNommé(PARAMETRES) au constructeur principal avec le ' : this()' il lui passe un parametre immuable (ici 0) une valeur par defaut
+  
+  void showInfo() {
+    print('Owner: $owner, Balance: $balance');
+  }
+
+}
+
+class ConstruNomme{
+  String owner;
+  double balance;
+
+  ConstruNomme(this.owner, {double? initialBalance}) : balance = initialBalance ?? 0; // Initializer List : tous ce qui suit le ':' est exécuté avant le corps du constructeur
+  // opérateur de coalescence des nuls, A ?? B : return A si pas A est n'est pas null, return B si null 
+  void showInfo() {
+    print('Owner: $owner, Balance: $balance');
+  }
+}
+
+void Constru() {
+  var normalAccountEz = ConstruNommeEz('Alice', 500); 
+  var emptyAccountEz = ConstruNommeEz.empty('Bob'); // plus rapide et intuitif grâce à "empty" 
+  
+  normalAccountEz.showInfo(); 
+  emptyAccountEz.showInfo(); 
+  
+  var normalAccount = ConstruNomme('Alice', initialBalance: 500);
+  var emptyAccount = ConstruNomme('Bob', initialBalance: 0); //  t'as capté le bail
+
+  normalAccount.showInfo(); 
+  emptyAccount.showInfo(); 
+}
+
+
+enum PlanetType { terrestrial, gas, ice }
+
+enum Planet {
+  mercury(planetType: PlanetType.terrestrial, moons: 0, hasRings: false),  
+  venus(planetType: PlanetType.terrestrial, moons: 0, hasRings: false),
+  uranus(planetType: PlanetType.ice, moons: 27, hasRings: true),
+  earth(planetType: PlanetType.terrestrial, moons: 1, hasRings: false),
+  neptune(planetType: PlanetType.ice, moons: 14, hasRings: true);
+  // enumt : collection de valeurs constantes; pas d'instance dcp, on cree des modeles ici direct et seuls les valeurs definit peuvent etre utilisé (terrestrial, gas, ice) 
+  // utile pour représenter des choix fixes, un ensemble de données immuables, planètes, états, couleurs, voitures etc
+
+  final PlanetType planetType;
+  final int moons;
+  final bool hasRings;
+
+  const Planet({required this.planetType, required this.moons, required this.hasRings});
+
+  String get printInfo => ("Info : ${planetType}, Moons : ${moons}, HasRings : ${hasRings}");
+  bool get isGiant => planetType == PlanetType.gas || planetType == PlanetType.ice; // ||t : OR, un des deux ou les deux
+      
+}
+
+void EnumName(){
+  var planet1 = Planet.uranus;
+  print("Name : ${planet1.name}, ${planet1.printInfo}"); // .namet avec Enum renvoie le nom des membres enrichis, ici => mercury, venus etc
+  print(planet1.isGiant); 
+}
+// ||
+// ||   Same sans Enum et dcp instantiable
+// \/
+enum PlanetTypeSansEnum { terrestrial, gas, ice }
+
+class PlanetSansEnum {
+  final String name;
+  final PlanetType planetType;
+  final int moons;
+  final bool hasRings;
+
+  const PlanetSansEnum._(this.name, this.planetType, this.moons, this.hasRings);  // ._t : Constructeur nommée privé 
+
+  // Instances prédéfinies comme dans un enum, faut utiliser des constante CONST 
+  static const PlanetSansEnum mercury = PlanetSansEnum._('Mercury', PlanetType.terrestrial, 0, false);
+  static const PlanetSansEnum venus = PlanetSansEnum._('Venus', PlanetType.terrestrial, 0, false);
+  static const PlanetSansEnum neptune = PlanetSansEnum._('Neptune', PlanetType.ice, 14, true);
+
+  String get Info => ("Info : Name : ${this.name}, ${this.planetType}, Moons : ${this.moons}, HasRings : ${this.hasRings}");
+}
+
+void EnumNameSansEnum(){
+  var planet01 = PlanetSansEnum.neptune;
+  print(planet01.Info);
+  var planet02 = PlanetSansEnum._("Earth", PlanetType.terrestrial, 1, false); // on peut instancier un nouvelle objet
+  print(planet02.Info);
+}
+
+class PointConst {
+  final int x, y; // finalt : immuable, une fois que la variable ou propriété est assignée, sa valeur ne peut plus être changée (mais pas à la compilation comme const)
+  const PointConst(this.x, this.y); // si le constructeur est un const il exige que toutes les propriétés de l'objet soient déclarées avec final
+}
+
+void ConstTuto() {
+  const p1 = PointConst(0, 0); // constt : il est calculé et crée au moment de la compilation, gain de memoire car si a = 0 et b = 0 alors il va juste mettre a = b/b = a
+  const p2 = PointConst(0, 0); // pour ca qu'on peut plus changé la valeur apres, car a et b pointent vers la même instance en mémoire
+  var p3 = PointConst(0, 0); 
+
+  print(p1 == p2); // true (p1 = p2, pointent vers même instance en memoire, car const)
+  print(p1 == p3); // false (2 instance differentes car non const, meme si ils ont la meme valeur ici)
+}
+
+class InheritanceTuto extends DifferenceDateTime {  // Heritage : extendst :  InheritanceTuto herite de DifferenceDateTime, ces propriétés et methodes publiques etc 
+
+  double altitude; //  Nouvelle Attribut/Propriété
+
+  InheritanceTuto(super.name, DateTime super.launchDate, this.altitude); // super.t pour les proprietés de la class herités et this.t les nouveaux de la classe qui herite
+}
+
+
+mixin Flyer { // mixint : classe spéciale qui permet de partager du code entre plusieurs classes sans recourir à l'héritage, pas de constructeur
+  void fly() => print('I can fly!');
+}
+
+mixin class Swimmer { // mixin classt : au besoin d’une structure hybride avec un constructeur pouvant aussi être utilisée comme un mixin !NON
+  void swim() => print('I can swim!');
+
+}
+class Bird with Flyer {}
+class Fish with Swimmer {}
+class Duck with Flyer, Swimmer {}
+
+void MixinTuto() {
+  var bird = Bird();
+  bird.fly(); 
+  var duck = Duck();
+  duck.fly(); 
+  duck.swim(); 
+}
+
+  abstract class Animal { // abstractt : conçue pour être héritée par d'autres classes, sert à fournir une base de comportement commun bark et meow = makeSound
+  void makeSound();
+}
+
+class Dog implements Animal {
+  @override
+  void makeSound() => print('Bark!');
+}
+
+class Cat implements Animal {
+  @override
+  void makeSound() => print('Meow!');
+}
+
+void ImplementsTuto() {
+  List<Animal> animals = [Dog(), Cat()];
+
+  for (var animal in animals) {
+    animal.makeSound(); 
+  }
+}
+
+Future<void> printWithDelay(String message, Duration delay) async {
+  await Future.delayed(delay);
+  print(message);
+}
+
+Future<void> printWithDelay2(String message, Duration delay) {
+  return Future.delayed(delay).then((_) {
+    print(message);
+  });
+}
+void main(){
+  printWithDelay2("OUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", Duration(seconds : 3));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
