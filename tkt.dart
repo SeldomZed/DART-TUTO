@@ -44,29 +44,30 @@ async* / yield : Similaire à sync*, mais pour des fonctions génératrices asyn
 @deprecated : Annotations pour indiquer qu'une méthode ou une classe est obsolète et ne devrait plus être utilisée.
 @required (Flutter) : Utilisé dans Flutter pour indiquer qu'un paramètre est obligatoire. Il est maintenant remplacé par required directement en Dart avec Null Safety. */
 
+void readLineTuto() {
+  print('Donne un premier nombre : ');
+  String? input1 = stdin.readLineSync();
+  print('Donne un deuxieme nombre : ');
+  String? input2 = stdin.readLineSync();
 
-
-void readLineTuto(){
-print('Donne un premier nombre : ');
-String? input1 = stdin.readLineSync();
-print('Donne un deuxieme nombre : ');
-String? input2 = stdin.readLineSync();
-
-print("La somme de $input1 + $input2 est : ${double.parse(input1!) + double.parse(input2!)}");
-
+  print(
+      "La somme de $input1 + $input2 est : ${double.parse(input1!) + double.parse(input2!)}");
 }
-// un iterable est une collection d'éléments qui peuvent être parcourus un par un(itérés) avec 'for in', '.forEach()' etc ex = List et Set
-void SplitMapToListParseTuto() {
-  print('Donne une liste de nombres :');
-  String? input1 = stdin.readLineSync(); 
 
+// un iterable est une collection d'éléments qui peuvent être parcourus un par un(itérés) avec 'for in', '.forEach()' etc List et Set
+// c'est l'element de la liste par ex : a = [(1,2,3),(4,5,6)]  (1,2,3) est un iterable
+void SplitMapToListParseTuto() {
+  print('Donne des nombres :');
+  String? input1 = stdin.readLineSync();
+  Set<String> name = {"zed", "victor", "laurent"}; // Setts PAS DE DUPLICATION
   if (input1 != null && input1.isNotEmpty) {
     List<double> numbers = input1
-        .split(' ')     //  print(numbers.runtimeType); // List<String>
-        .map((e) => double.parse(e)) //  print(result.runtimeType); // MappedListIterable<String, String> (ITERABLE c'est la liste travaillé en gros)
-        .toList(); //  print(numbers.runtimeType); // List<String>
+        .split(' ') //  print(numbers.runtimeType); => List<String>
+        .map((e) => double.parse(
+            e)) //  print(result.runtimeType); /=> MappedListIterable<String, double> (ITERABLE c'est la liste travaillé en gros)
+        .toList(); //  print(numbers.runtimeType); => List<String>
 
-    double somme = numbers.reduce((a, b) => a + b); 
+    double somme = numbers.reduce((a, b) => a + b);
     double moyenne = somme / numbers.length;
 
     print("Les nombres donnés sont : $numbers");
@@ -74,8 +75,51 @@ void SplitMapToListParseTuto() {
   }
 }
 // splitt : return une liste (meme si on lui donne un String) avec les elements espacé par le parametre indiqué (un regex aussi)
-// mapt : return un iterable qu'on lui donné en ayant appliqués la fonctions a tous ces elements
-// toListt : transforme un iterable en liste 
+// mapt : return l'iterable qu'on lui a donné en ayant appliqués la fonction sur tous ces elements
+// toListt : transforme un iterable en liste
+
+void mapTuto() {
+  Set<Map> mySet = {
+    // set de dictionnaire, dla merde for(i in)/ firstWhere/ for each etc pour acceder a name par ex
+    {'name': 'Zed', 'age': 30, 'city': 'Paris'},
+    {'name': 'victor', 'age': 10, 'city': 'New York'},
+    {'name': 'palmer', 'age': 47, 'city': 'Australie'}
+  };
+  List<Map> myMap = [
+    // dicitionnaire de dictionnaire index marche
+    {'name': 'Zed', 'age': 30, 'city': 'Paris'},
+    {'name': 'victor', 'age': 10, 'city': 'New York'},
+    {'name': 'palmer', 'age': 47, 'city': 'Australie'}
+  ];
+
+  print(myMap[1]["name"]);
+  print(mySet.firstWhere((element) => element['name'] == 'Zed')[
+      // return {name: Zed, age: 30, city: Paris} puis ['name'] comment en haut ou 1 represente le Map
+      'name']);
+}
+
+void pointSuite() {
+  var a = '12 18 89 85';
+  print(a.runtimeType);
+  var b = a.split(' ');
+  print("$b = e ${b.runtimeType}");
+  var c = b.map((i) => int.parse(i));
+  print("$c ${c.runtimeType}");
+  var d = c.toList();
+  print("$d ${d.runtimeType}");
+// ||
+// || Same
+// \/
+
+  var ez = '12 18 89 85'.split(' ').map((i) => int.parse(i)).toList();
+  print(ez);
+// ||
+// || Same
+// \/
+
+  var ez2 = '12 18 89 85'.split(' ').map((i) => int.parse(i)).toList();
+  print(ez);
+}
 
 class Person {
   String name;
@@ -83,6 +127,7 @@ class Person {
 
   Person(this.name, this.age);
 }
+
 void ReduceTuto() {
   List<Person> people = [
     Person("Alice", 25),
@@ -96,38 +141,42 @@ void ReduceTuto() {
 // reducet : approche gloutonne, car il parcourt etape par etape() et applique l'action , il ne return qu'UN seul element final, doit être du même type que les éléments.
 // a = Person("Alice", 25) et b = Person("Bob", 30) -> 25>30 = false -> b devient a -> a = Person("Bob", 30) et b = Person("Charlie", 28) -> 30>28 -> a = a return a
 
-
-void ContainsWhereAnyTuto(List<String> liste, {String? OneOption, List<String>? ManyOption}){
-  
-if (OneOption != null) liste.where((element) => element.contains(OneOption)).forEach(print);
-if (ManyOption != null) liste.where((elementListe) => ManyOption.any((lesOptions) => elementListe.contains(lesOptions))).forEach(print);
+void ContainsWhereAnyTuto(List<String> liste,
+    {String? OneOption, List<String>? ManyOption}) {
+  if (OneOption != null)
+    liste.where((element) => element.contains(OneOption)).forEach(print);
+  if (ManyOption != null)
+    liste
+        .where((elementListe) =>
+            ManyOption.any((lesOptions) => elementListe.contains(lesOptions)))
+        .forEach(print);
 }
-// wheret : return uniquement les elements qui sont true aux conditions
+// wheret : return uniquement les elements qui sont true aux conditions, ex : si element est true à : element.contains(OneOption) alors il return element
 // containst: return un bool si le truc contient l'option
 // forEacht : fait l'action sur chaque elements (permet de parcourir aussi ducoup)
 
 // ||
 // ||  Version long chiant
 // \/
-void ContainsTutoEz(List<String> liste, {String? OneOption, List<String>? ManyOption}){
- 
- if (OneOption != null) {
-  for (String i in liste){
-    if (i.contains(OneOption)) {
-      print(i);
+void ContainsTutoEz(List<String> liste,
+    {String? OneOption, List<String>? ManyOption}) {
+  if (OneOption != null) {
+    for (String i in liste) {
+      if (i.contains(OneOption)) {
+        print(i);
+      }
     }
   }
- }
 
- if (ManyOption != null){
-  for (String i in liste){
-    for (String j in ManyOption){
-      if (i.contains(j)) {
-      print(i);
-    }
+  if (ManyOption != null) {
+    for (String i in liste) {
+      for (String j in ManyOption) {
+        if (i.contains(j)) {
+          print(i);
+        }
+      }
     }
   }
- }  
 }
 
 void FoldTuto() {
@@ -136,8 +185,7 @@ void FoldTuto() {
   String sentence = words.fold("Message : ", (a, b) => a + b + " ");
   print(sentence);
 }
-// foldt : = reduce mais nécessite une valeur initiale, e.g Message ici, marche si la collection est vide contrairement à reduce et peut être différent du type des éléments 
-
+// foldt : = reduce mais nécessite une valeur initiale, e.g Message ici, marche si la collection est vide contrairement à reduce et peut être différent du type des éléments
 
 class GetterTuto {
   String name;
@@ -145,119 +193,132 @@ class GetterTuto {
 
   GetterTuto(this.name, this.birthYear);
 
-  int get age => DateTime.now().year - birthYear;  // gett : c'est = methode mais plus fluide et intuitif car appelé comme une propriété contrairement aux methode, fait office de variable aussi
-    
+  int get age =>
+      DateTime.now().year -
+      birthYear; // gett : c'est = methode mais plus fluide et intuitif car appelé comme une propriété contrairement aux methode, fait office de variable aussi
+
   int aged() => DateTime.now().year - birthYear; // methode classique
-    // =>t : permet de supprimer les { } et le return 
-  
+  // =>t : permet de supprimer les { } et le return
+}
 
-} 
-void getter(){
-    var guy = GetterTuto("Pere", 1972);
-    print(guy.age); // Getter
-    print(guy.aged()); // Methode
-  }
+void getter() {
+  var guy = GetterTuto("Pere", 1972);
+  print(guy.age); // Getter
+  print(guy.aged()); // Methode
+}
 
-class DifferenceDateTime{
+class DifferenceDateTime {
   String name;
   DateTime? launchDate;
 
-  int? get launchYear => launchDate?.year; // ?.t : verifie si launchDate est null, si pas null => return launchDate.year
+  int? get launchYear => launchDate
+      ?.year; // ?.t : verifie si launchDate est null, si pas null => return launchDate.year
 
-  DifferenceDateTime(this.name, this.launchDate) {
-  }
+  DifferenceDateTime(this.name, this.launchDate) {}
 
-  DifferenceDateTime.unlaunched(String name) : this(name, null); 
-                                 // SAME =>  : this.name = name , launchDate = null; 
+  DifferenceDateTime.unlaunched(String name) : this(name, null);
+  // SAME =>  : this.name = name , launchDate = null;
   void describe() {
     print('Spacecraft: $name');
     var launchDate = this.launchDate;
     if (launchDate != null) {
-      int annee = DateTime.now().difference(launchDate).inDays ~/ 365; // A.differencet(B) : A = diminué B = diminuant et ~/ division euclidienne (avec reste)
-      int mois = DateTime.now().difference(launchDate).inDays % 365 ~/30 ;
+      int annee = DateTime.now().difference(launchDate).inDays ~/
+          365; // A.differencet(B) : A = diminué B = diminuant et ~/ division euclidienne (avec reste)
+      int mois = DateTime.now().difference(launchDate).inDays % 365 ~/ 30;
       int jour = DateTime.now().difference(launchDate).inDays % 365 % 30;
-      print('Launched in $launchYear ($annee years, $mois months and $jour days ago)');
+      print(
+          'Launched in $launchYear ($annee years, $mois months and $jour days ago)');
     } else {
       print('Unlaunched');
     }
   }
 }
-void DifferenceDT(){
-  var Nasa = DifferenceDateTime("SpaceX", DateTime(2002,10));
+
+void DifferenceDT() {
+  var Nasa = DifferenceDateTime("SpaceX", DateTime(2002, 10));
   var Nasa2 = DifferenceDateTime.unlaunched("WooW");
   Nasa.describe();
   Nasa2.describe();
 }
 
-
-class ConstruNommeEz{
+class ConstruNommeEz {
   String owner;
   double balance;
 
-  ConstruNommeEz(this.owner, this.balance); // Constructeur principal de ConstruNommeeEz
+  ConstruNommeEz(
+      this.owner, this.balance); // Constructeur principal de ConstruNommeeEz
 
-  ConstruNommeEz.empty(String owner) : this(owner, 0); // Constructeur nommé qui permet d'eviter d'inclurer {} etc et auto documente le code empty/premium = Clair Intuitif
+  ConstruNommeEz.empty(String owner)
+      : this(owner,
+            0); // Constructeur nommé qui permet d'eviter d'inclurer {} etc et auto documente le code empty/premium = Clair Intuitif
   // il redirige les parametres .ConstucteurNommé(PARAMETRES) au constructeur principal avec le ' : this()' il lui passe un parametre immuable (ici 0) une valeur par defaut
-  
+
   void showInfo() {
     print('Owner: $owner, Balance: $balance');
   }
-
 }
 
-class ConstruNomme{
+class ConstruNomme {
   String owner;
   double balance;
 
-  ConstruNomme(this.owner, {double? initialBalance}) : balance = initialBalance ?? 0; // Initializer List : tous ce qui suit le ':' est exécuté avant le corps du constructeur
-  // opérateur de coalescence des nuls, A ?? B : return A si pas A est n'est pas null, return B si null 
+  ConstruNomme(this.owner, {double? initialBalance})
+      : balance = initialBalance ??
+            0; // Initializer List : tous ce qui suit le ':' est exécuté avant le corps du constructeur
+  // opérateur de coalescence des nuls, A ?? B : return A si pas A est n'est pas null, return B si null
   void showInfo() {
     print('Owner: $owner, Balance: $balance');
   }
 }
 
 void Constru() {
-  var normalAccountEz = ConstruNommeEz('Alice', 500); 
-  var emptyAccountEz = ConstruNommeEz.empty('Bob'); // plus rapide et intuitif grâce à "empty" 
-  
-  normalAccountEz.showInfo(); 
-  emptyAccountEz.showInfo(); 
-  
+  var normalAccountEz = ConstruNommeEz('Alice', 500);
+  var emptyAccountEz =
+      ConstruNommeEz.empty('Bob'); // plus rapide et intuitif grâce à "empty"
+
+  normalAccountEz.showInfo();
+  emptyAccountEz.showInfo();
+
   var normalAccount = ConstruNomme('Alice', initialBalance: 500);
-  var emptyAccount = ConstruNomme('Bob', initialBalance: 0); //  t'as capté le bail
+  var emptyAccount =
+      ConstruNomme('Bob', initialBalance: 0); //  t'as capté le bail
 
-  normalAccount.showInfo(); 
-  emptyAccount.showInfo(); 
+  normalAccount.showInfo();
+  emptyAccount.showInfo();
 }
-
 
 enum PlanetType { terrestrial, gas, ice }
 
 enum Planet {
-  mercury(planetType: PlanetType.terrestrial, moons: 0, hasRings: false),  
+  mercury(planetType: PlanetType.terrestrial, moons: 0, hasRings: false),
   venus(planetType: PlanetType.terrestrial, moons: 0, hasRings: false),
   uranus(planetType: PlanetType.ice, moons: 27, hasRings: true),
   earth(planetType: PlanetType.terrestrial, moons: 1, hasRings: false),
   neptune(planetType: PlanetType.ice, moons: 14, hasRings: true);
-  // enumt : collection de valeurs constantes; pas d'instance dcp, on cree des modeles ici direct et seuls les valeurs definit peuvent etre utilisé (terrestrial, gas, ice) 
+  // enumt : collection de valeurs constantes; pas d'instance dcp, on cree des modeles ici direct et seuls les valeurs definit peuvent etre utilisé (terrestrial, gas, ice)
   // utile pour représenter des choix fixes, un ensemble de données immuables, planètes, états, couleurs, voitures etc
 
   final PlanetType planetType;
   final int moons;
   final bool hasRings;
 
-  const Planet({required this.planetType, required this.moons, required this.hasRings});
+  const Planet(
+      {required this.planetType, required this.moons, required this.hasRings});
 
-  String get printInfo => ("Info : ${planetType}, Moons : ${moons}, HasRings : ${hasRings}");
-  bool get isGiant => planetType == PlanetType.gas || planetType == PlanetType.ice; // ||t : OR, un des deux ou les deux
-      
+  String get printInfo =>
+      ("Info : ${planetType}, Moons : ${moons}, HasRings : ${hasRings}");
+  bool get isGiant =>
+      planetType == PlanetType.gas ||
+      planetType == PlanetType.ice; // ||t : OR, un des deux ou les deux
 }
 
-void EnumName(){
+void EnumName() {
   var planet1 = Planet.uranus;
-  print("Name : ${planet1.name}, ${planet1.printInfo}"); // .namet avec Enum renvoie le nom des membres enrichis, ici => mercury, venus etc
-  print(planet1.isGiant); 
+  print(
+      "Name : ${planet1.name}, ${planet1.printInfo}"); // .namet avec Enum renvoie le nom des membres enrichis, ici => mercury, venus etc
+  print(planet1.isGiant);
 }
+
 // ||
 // ||   Same sans Enum et dcp instantiable
 // \/
@@ -269,66 +330,84 @@ class PlanetSansEnum {
   final int moons;
   final bool hasRings;
 
-  const PlanetSansEnum._(this.name, this.planetType, this.moons, this.hasRings);  // ._t : Constructeur nommée privé 
+  const PlanetSansEnum._(this.name, this.planetType, this.moons,
+      this.hasRings); // ._t : Constructeur nommée privé
 
-  // Instances prédéfinies comme dans un enum, faut utiliser des constante CONST 
-  static const PlanetSansEnum mercury = PlanetSansEnum._('Mercury', PlanetType.terrestrial, 0, false);
-  static const PlanetSansEnum venus = PlanetSansEnum._('Venus', PlanetType.terrestrial, 0, false);
-  static const PlanetSansEnum neptune = PlanetSansEnum._('Neptune', PlanetType.ice, 14, true);
+  // Instances prédéfinies comme dans un enum, faut utiliser des constante CONST
+  static const PlanetSansEnum mercury =
+      PlanetSansEnum._('Mercury', PlanetType.terrestrial, 0, false);
+  static const PlanetSansEnum venus =
+      PlanetSansEnum._('Venus', PlanetType.terrestrial, 0, false);
+  static const PlanetSansEnum neptune =
+      PlanetSansEnum._('Neptune', PlanetType.ice, 14, true);
 
-  String get Info => ("Info : Name : ${this.name}, ${this.planetType}, Moons : ${this.moons}, HasRings : ${this.hasRings}");
+  String get Info =>
+      ("Info : Name : ${this.name}, ${this.planetType}, Moons : ${this.moons}, HasRings : ${this.hasRings}");
 }
 
-void EnumNameSansEnum(){
+void EnumNameSansEnum() {
   var planet01 = PlanetSansEnum.neptune;
   print(planet01.Info);
-  var planet02 = PlanetSansEnum._("Earth", PlanetType.terrestrial, 1, false); // on peut instancier un nouvelle objet
+  var planet02 = PlanetSansEnum._("Earth", PlanetType.terrestrial, 1,
+      false); // on peut instancier un nouvelle objet
   print(planet02.Info);
 }
 
 class PointConst {
-  final int x, y; // finalt : immuable, une fois que la variable ou propriété est assignée, sa valeur ne peut plus être changée (mais pas à la compilation comme const)
-  const PointConst(this.x, this.y); // si le constructeur est un const il exige que toutes les propriétés de l'objet soient déclarées avec final
+  final int x,
+      y; // finalt : immuable, une fois que la variable ou propriété est assignée, sa valeur ne peut plus être changée (mais pas à la compilation comme const)
+  const PointConst(this.x,
+      this.y); // si le constructeur est un const il exige que toutes les propriétés de l'objet soient déclarées avec final
 }
 
 void ConstTuto() {
-  const p1 = PointConst(0, 0); // constt : il est calculé et crée au moment de la compilation, gain de memoire car si a = 0 et b = 0 alors il va juste mettre a = b/b = a
-  const p2 = PointConst(0, 0); // pour ca qu'on peut plus changé la valeur apres, car a et b pointent vers la même instance en mémoire
-  var p3 = PointConst(0, 0); 
+  const p1 = PointConst(0,
+      0); // constt : il est calculé et crée au moment de la compilation, gain de memoire car si a = 0 et b = 0 alors il va juste mettre a = b/b = a
+  const p2 = PointConst(0,
+      0); // pour ca qu'on peut plus changé la valeur apres, car a et b pointent vers la même instance en mémoire
+  var p3 = PointConst(0, 0);
 
-  print(p1 == p2); // true (p1 = p2, pointent vers même instance en memoire, car const)
-  print(p1 == p3); // false (2 instance differentes car non const, meme si ils ont la meme valeur ici)
+  print(p1 ==
+      p2); // true (p1 = p2, pointent vers même instance en memoire, car const)
+  print(p1 ==
+      p3); // false (2 instance differentes car non const, meme si ils ont la meme valeur ici)
 }
 
-class InheritanceTuto extends DifferenceDateTime {  // Heritage : extendst :  InheritanceTuto herite de DifferenceDateTime, ces propriétés et methodes publiques etc 
+class InheritanceTuto extends DifferenceDateTime {
+  // Heritage : extendst :  InheritanceTuto herite de DifferenceDateTime, ces propriétés et methodes publiques etc
 
   double altitude; //  Nouvelle Attribut/Propriété
 
-  InheritanceTuto(super.name, DateTime super.launchDate, this.altitude); // super.t pour les proprietés de la class herités et this.t les nouveaux de la classe qui herite
+  InheritanceTuto(super.name, DateTime super.launchDate,
+      this.altitude); // super.t pour les proprietés de la class herités et this.t les nouveaux de la classe qui herite
 }
 
-
-mixin Flyer { // mixint : classe spéciale qui permet de partager du code entre plusieurs classes sans recourir à l'héritage, pas de constructeur
+mixin Flyer {
+  // mixint : classe spéciale qui permet de partager du code entre plusieurs classes sans recourir à l'héritage, pas de constructeur
   void fly() => print('I can fly!');
 }
 
-mixin class Swimmer { // mixin classt : au besoin d’une structure hybride avec un constructeur pouvant aussi être utilisée comme un mixin !NON
+mixin class Swimmer {
+  // mixin classt : au besoin d’une structure hybride avec un constructeur pouvant aussi être utilisée comme un mixin !NON
   void swim() => print('I can swim!');
-
 }
+
 class Bird with Flyer {}
+
 class Fish with Swimmer {}
+
 class Duck with Flyer, Swimmer {}
 
 void MixinTuto() {
   var bird = Bird();
-  bird.fly(); 
+  bird.fly();
   var duck = Duck();
-  duck.fly(); 
-  duck.swim(); 
+  duck.fly();
+  duck.swim();
 }
 
-  abstract class Animal { // abstractt : conçue pour être héritée par d'autres classes, sert à fournir une base de comportement commun bark et meow = makeSound
+abstract class Animal {
+  // abstractt : conçue pour être héritée par d'autres classes, sert à fournir une base de comportement commun (bark et meow) = makeSound
   void makeSound();
 }
 
@@ -346,7 +425,7 @@ void ImplementsTuto() {
   List<Animal> animals = [Dog(), Cat()];
 
   for (var animal in animals) {
-    animal.makeSound(); 
+    animal.makeSound();
   }
 }
 
@@ -360,148 +439,17 @@ Future<void> printWithDelay2(String message, Duration delay) {
     print(message);
   });
 }
-void main(){
-  printWithDelay2("OUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII", Duration(seconds : 3));
+
+void throwTuto(var a, b) {
+  // throwt
+  if (a < b)
+    throw StateError("Non a < b");
+  else
+    print(a - b); // if elset en une ligne
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void throwTutoEz(var a, var b) =>
+    (a < b ? throw StateError("Non, doit etre a < b") : print(a - b));
+// ?t : operateur ternaire  ( condition A ? B : C ) => (return B si A true) (return C si A false)
+
+void main() {}
