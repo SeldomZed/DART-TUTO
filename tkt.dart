@@ -211,8 +211,7 @@ class DifferenceDateTime {
   String name;
   DateTime? launchDate;
 
-  int? get launchYear => launchDate
-      ?.year; // ?.t : verifie si launchDate est null, si pas null => return launchDate.year
+  int? get launchYear => launchDate?.year; // ?.t : verifie si launchDate est null, si pas null => return launchDate.year
 
   DifferenceDateTime(this.name, this.launchDate) {}
 
