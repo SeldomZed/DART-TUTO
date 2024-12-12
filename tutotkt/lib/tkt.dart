@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
 
 /* VAR :
 int : Représente des nombres entiers (ex. 1, 42).
@@ -479,33 +481,42 @@ void tryTuto() {
   }
 }
 
+// Future<Post> fetchPost() {
+//   const delay = Duration(seconds: 2);
+
+//   return Future.delayed(delay, () => Post("my post", 123));
+// }
+
+// void thenTuto() {
+//   // same
+//   fetchPost().then((p) {
+//     print(p.title);
+//     print(p.userId);
+//   });
+// }
+
+// void AsyncAwaitTuto() async {
+//   // same
+//   final post1 = await fetchPost();
+//   print(post1.title);
+// }
+
 class Post {
-  String title;
-  int userId;
+  String api;
+  bool blabla;
 
-  Post(this.title, this.userId);
+  Post(this.api, this.blabla);
 }
 
-Future<Post> fetchPost() {
-  const delay = Duration(seconds: 2);
-
-  return Future.delayed(delay, () => Post("my post", 123));
+Future<Post> tutoApi() async {
+  var url = Uri.https('noda-dm.enodea-prd.com', '/test38.json');
+  final response = await http.get(url);
+  Map<String, dynamic> data = convert.jsonDecode(response.body);
+  return Post(data['ApiUrl'], data["uneNouvelleVarable"]);
 }
 
-void thenTuto() {
-  // same
-  fetchPost().then((p) {
-    print(p.title);
-    print(p.userId);
-  });
-}
-
-void AsyncAwaitTuto() async {
-  // same
-  final post = await fetchPost();
-  print(post.title);
-}
-
-void main() {
-  AsyncAwaitTuto();
+void main() async {
+  final urlApi = await tutoApi();
+  print(urlApi.api);
+  print(urlApi.blabla);
 }
