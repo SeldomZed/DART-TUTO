@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:math';
 
 /* VAR :
 int : Représente des nombres entiers (ex. 1, 42).
@@ -480,6 +479,33 @@ void tryTuto() {
   }
 }
 
+class Post {
+  String title;
+  int userId;
+
+  Post(this.title, this.userId);
+}
+
+Future<Post> fetchPost() {
+  const delay = Duration(seconds: 2);
+
+  return Future.delayed(delay, () => Post("my post", 123));
+}
+
+void thenTuto() {
+  // same
+  fetchPost().then((p) {
+    print(p.title);
+    print(p.userId);
+  });
+}
+
+void AsyncAwaitTuto() async {
+  // same
+  final post = await fetchPost();
+  print(post.title);
+}
+
 void main() {
-  tryTuto();
+  AsyncAwaitTuto();
 }
