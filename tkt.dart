@@ -211,7 +211,8 @@ class DifferenceDateTime {
   String name;
   DateTime? launchDate;
 
-  int? get launchYear => launchDate?.year; // ?.t : verifie si launchDate est null, si pas null => return launchDate.year
+  int? get launchYear => launchDate
+      ?.year; // ?.t : verifie si launchDate est null, si pas null => return launchDate.year
 
   DifferenceDateTime(this.name, this.launchDate) {}
 
@@ -451,4 +452,34 @@ void throwTutoEz(var a, var b) =>
     (a < b ? throw StateError("Non, doit etre a < b") : print(a - b));
 // ?t : operateur ternaire  ( condition A ? B : C ) => (return B si A true) (return C si A false)
 
-void main() {}
+void exceptionTuto(int number) {
+  if (number < 0) {
+    throw ArgumentError(
+        "Le nombre ne peut pas être négatif."); // Lancer une exception
+  }
+  if (number == 0) {
+    throw Exception(
+        "Le nombre ne peut pas être zéro."); // Autre type d'exception
+  }
+  print("Nombre valide : $number");
+}
+
+void tryTuto() {
+  try {
+    int myNumber = 0; // Remplacez par des valeurs différentes pour tester
+    exceptionTuto(myNumber);
+  } on ArgumentError catch (e) {
+    // Capture une exception spécifique
+    print("Erreur d'argument : $e");
+  } catch (e) {
+    // Capture toutes les autres exceptions
+    print("Une erreur est survenue : $e");
+  } finally {
+    // Code qui s'exécute toujours
+    print("Bloc finally : Fin de la vérification.");
+  }
+}
+
+void main() {
+  tryTuto();
+}
